@@ -7,3 +7,4 @@ configMapGenerator:
   - ./rego_rules/main.rego
   - ./rego_rules/filter.rego
   - ./rego_rules/mask.rego
+  - ./rego_rules/impersonation.rego
