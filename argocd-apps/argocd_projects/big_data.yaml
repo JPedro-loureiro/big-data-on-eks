@@ -10,6 +10,7 @@ spec:
     - https://github.com/JPedro-loureiro/big-data-on-eks.git
     - https://strimzi.io/charts/
     - https://airflow.apache.org
+    - https://apache.github.io/superset
   destinations:
     - namespace: "*"
       server: "https://kubernetes.default.svc"

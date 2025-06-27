@@ -2,27 +2,35 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "5.75.0"
+      version = "5.98.0"
     }
     argocd = {
       source  = "argoproj-labs/argocd"
       version = "7.0.3"
     }
     kubectl = {
-      source = "gavinbunney/kubectl"
+      source  = "gavinbunney/kubectl"
       version = "1.14.0"
     }
     time = {
-      source = "hashicorp/time"
+      source  = "hashicorp/time"
       version = "0.12.1"
+    }
+    keycloak = {
+      source  = "keycloak/keycloak"
+      version = "5.2.0"
+    }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "2.9.0"
     }
   }
 }
 
 locals {
-  eks_cluster_endpoint      = module.eks_cluster.eks_cluster_endpoint
-  eks_certificate_authority = module.eks_cluster.eks_certificate_authority
-  eks_cluster_name          = module.eks_cluster.eks_cluster_name
+  eks_cluster_endpoint      = module.eks_base_infra.eks_cluster_endpoint
+  eks_certificate_authority = module.eks_base_infra.eks_certificate_authority
+  eks_cluster_name          = module.eks_base_infra.eks_cluster_name
 }
 
 # AWS Provider
@@ -67,4 +75,13 @@ provider "argocd" {
   server_addr = "http://cicd.argocd-server.svc.cluster.local"
   username    = "admin"
   password    = "admin"
+}
+
+provider "keycloak" {
+  client_id     = "admin-cli"
+  username      = "admin"
+  password      = "admin"
+  url           = "https://keycloak.${var.domain_name}"
+  realm         = "master"
+  initial_login = false
 }

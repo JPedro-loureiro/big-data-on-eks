@@ -1,0 +1,38 @@
+apiVersion: "argoproj.io/v1alpha1"
+kind: Application
+metadata:
+  name: keycloak
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: base-applications
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: keycloak
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - "Validate=false"
+      - "CreateNamespace=true"
+      - "PrunePropagationPolicy=foreground"
+      - "PruneLast=true"
+      # - "ServerSideApply=true"
+    retry:
+      limit: 3
+      backoff:
+        duration   : "5s"
+        factor     : 2
+        maxDuration: "1m"
+  source:
+    repoURL: https://github.com/JPedro-loureiro/big-data-on-eks.git
+    targetRevision: HEAD
+    path: "apps/keycloak/keycloak_helm_chart"
+    helm:
+      version: v3
+      values: |
+        ${values}
+  

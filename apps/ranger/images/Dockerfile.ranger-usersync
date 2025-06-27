@@ -1,0 +1,14 @@
+FROM openjdk:8-jdk-slim AS builder
+ARG RANGER_VERSION=2.4.0
+RUN apt-get update && apt-get install -y git maven python3
+RUN git clone https://github.com/apache/ranger.git && cd ranger && \
+    git checkout release-ranger-${RANGER_VERSION} && \
+    mvn clean package -DskipTests -Pusersync
+
+FROM openjdk:8-jre-slim
+ENV RANGER_HOME=/opt/ranger-usersync
+COPY --from=builder /build/ranger/target/ranger-${RANGER_VERSION}-usersync.tar.gz /tmp/
+RUN mkdir -p $RANGER_HOME && \
+    tar -xzf /tmp/ranger-${RANGER_VERSION}-usersync.tar.gz -C $RANGER_HOME --strip-components=1
+WORKDIR $RANGER_HOME
+ENTRYPOINT ["sh", "./start.sh"]

@@ -8,15 +8,17 @@ resource "kubectl_manifest" "trino" {
           "${path.module}/../apps/trino/trino_values.yaml", //templating the values file
           {
             tls_certificate_arn = var.tls_certificate_arn
-            domain_name = var.domain_name
+            domain_name         = var.domain_name
+            trino_client_secret = random_password.trino_secret.result
           }
-        ), "\n", "\n        ") // adding identation to yaml files
+      ), "\n", "\n        ") // adding identation to yaml files
     }
   )
 
   depends_on = [
     kubectl_manifest.opa
-    ,kubectl_manifest.external_secrets_operator
+    , kubectl_manifest.external_secrets_operator
+    , null_resource.wait_for_keycloak
   ]
 }
 
@@ -31,7 +33,7 @@ resource "kubectl_manifest" "strimzi_operator" {
 
   depends_on = [
     kubectl_manifest.opa
-    ,kubectl_manifest.external_secrets_operator
+    , kubectl_manifest.external_secrets_operator
   ]
 }
 
@@ -57,6 +59,12 @@ resource "kubectl_manifest" "kafka_connect_connectors" {
 }
 
 # Airflow
+
+resource "random_password" "airflow_fernet_key" {
+  length  = 32
+  special = false
+}
+
 resource "kubectl_manifest" "airflow" {
   yaml_body = templatefile(
     "${path.module}/argocd_applications/airflow.yaml", //templating the argo cd application file
@@ -66,13 +74,37 @@ resource "kubectl_manifest" "airflow" {
           "${path.module}/../apps/airflow/airflow_values.yaml", //templating the values file
           {
             tls_certificate_arn = var.tls_certificate_arn
-            domain_name = var.domain_name
+            domain_name         = var.domain_name
+            airflow_fernet_key = random_password.airflow_fernet_key.result
           }
-        ), "\n", "\n        ") // adding identation to yaml files
+      ), "\n", "\n        ") // adding identation to yaml files
     }
   )
 
   depends_on = [
     kubectl_manifest.trino
+  ]
+}
+
+# Superset
+resource "kubectl_manifest" "superset" {
+  yaml_body = templatefile(
+    "${path.module}/argocd_applications/superset.yaml", //templating the argo cd application file
+    {
+      values = replace(
+        templatefile(
+          "${path.module}/../apps/superset/superset_values.yaml", //templating the values file
+          {
+            tls_certificate_arn = var.tls_certificate_arn
+            domain_name         = var.domain_name
+            keycloak_client_secret = random_password.superset_secret.result
+          }
+      ), "\n", "\n        ") // adding identation to yaml files
+    }
+  )
+
+  depends_on = [
+    kubectl_manifest.trino
+    , null_resource.wait_for_keycloak
   ]
 }

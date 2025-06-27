@@ -1,16 +1,18 @@
 locals {
   namespaces = {
-    argocd = "argocd"
+    argocd           = "argocd"
     external-secrets = "external-secrets"
-    kafka = "kafka"
-    opa = "opa"
-    trino = "trino"
+    kafka            = "kafka"
+    opa              = "opa"
+    trino            = "trino"
+    superset         = "superset"
+    keycloak         = "keycloak"
   }
 }
 
 resource "kubectl_manifest" "namespaces" {
-    for_each = local.namespaces
-    yaml_body = <<YAML
+  for_each  = local.namespaces
+  yaml_body = <<YAML
 apiVersion: v1
 kind: Namespace
 metadata:

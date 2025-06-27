@@ -1,5 +1,5 @@
 resource "kubectl_manifest" "gp3_ebs_csi_storage_class" {
-    yaml_body = <<YAML
+  yaml_body = <<YAML
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:

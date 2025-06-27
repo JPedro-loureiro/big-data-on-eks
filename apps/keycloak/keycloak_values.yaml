@@ -284,7 +284,19 @@ args: []
 ##   - name: FOO
 ##     value: "bar"
 ##
-extraEnvVars: []
+extraEnvVars:
+  - name: KC_PROXY
+    value: edge
+  - name: KC_HTTP_ENABLED
+    value: "true"
+  - name: KC_HOSTNAME
+    value: keycloak.${domain_name}
+  - name: KC_HOSTNAME_STRICT
+    value: "true"
+  - name: PROXY_ADDRESS_FORWARDING
+    value: "true"
+  - name: KC_PROXY_HEADERS
+    value: xforwarded
 ## @param extraEnvVarsCM Name of existing ConfigMap containing extra env vars
 ##
 extraEnvVarsCM: ""
@@ -369,7 +381,13 @@ resourcesPreset: "small"
 ##     cpu: 3
 ##     memory: 1024Mi
 ##
-resources: {}
+resources:
+  requests:
+    cpu: 200m
+    memory: 512Mi
+  limits:
+    cpu: 500m
+    memory: 1Gi
 ## Configure extra options for Keycloak containers' liveness, readiness and startup probes
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes
 ## @param livenessProbe.enabled Enable livenessProbe on Keycloak containers
@@ -619,15 +637,15 @@ service:
 ingress:
   ## @param ingress.enabled Enable ingress record generation for Keycloak
   ##
-  enabled: false
+  enabled: true
   ## @param ingress.ingressClassName IngressClass that will be be used to implement the Ingress (Kubernetes 1.18+)
   ## This is supported in Kubernetes 1.18+ and required if you have more than one IngressClass marked as the default for your cluster .
   ## ref: https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/
   ##
-  ingressClassName: ""
+  ingressClassName: "alb"
   ## @param ingress.pathType Ingress path type
   ##
-  pathType: ImplementationSpecific
+  pathType: Prefix
   ## @param ingress.apiVersion Force Ingress API version (automatically detected if not set)
   ##
   apiVersion: ""
@@ -638,12 +656,12 @@ ingress:
   controller: default
   ## @param ingress.hostname Default host for the ingress record (evaluated as template)
   ##
-  hostname: keycloak.local
+  hostname: keycloak.${domain_name}
   ## @param ingress.hostnameStrict Disables dynamically resolving the hostname from request headers.
   ## Should always be set to true in production, unless your reverse proxy overwrites the Host header.
   ## If enabled, the hostname option needs to be specified.
   ##
-  hostnameStrict: false
+  hostnameStrict: true
   ## @param ingress.path [string] Default path for the ingress record (evaluated as template)
   ##
   path: "{{ .Values.httpRelativePath }}"
@@ -659,7 +677,17 @@ ingress:
   ##   kubernetes.io/ingress.class: nginx
   ##   cert-manager.io/cluster-issuer: cluster-issuer-name
   ##
-  annotations: {}
+  annotations:
+    alb.ingress.kubernetes.io/certificate-arn: ${tls_certificate_arn}
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+    alb.ingress.kubernetes.io/ssl-redirect: "443"
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/healthcheck-path: /realms/master
+    alb.ingress.kubernetes.io/group.name: "default"
+    alb.ingress.kubernetes.io/backend-protocol: HTTP
+    # alb.ingress.kubernetes.io/success-codes: "200"
+    # alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=120
   ## @param ingress.labels Additional labels for the Ingress resource.
   ## e.g:
   ## labels:
@@ -1340,7 +1368,7 @@ postgresql:
   auth:
     postgresPassword: ""
     username: bn_keycloak
-    password: ""
+    password: "bn_keycloak"
     database: bitnami_keycloak
     existingSecret: ""
     secretKeys:

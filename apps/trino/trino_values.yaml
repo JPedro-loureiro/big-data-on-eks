@@ -82,10 +82,10 @@ server:
 
   workerExtraConfig: ""
   coordinatorExtraConfig: |
-    http-server.authentication.oauth2.issuer=$${ENV:oauth2_issuer}
-    http-server.authentication.oauth2.client-id=$${ENV:oauth2_client_id}
-    http-server.authentication.oauth2.client-secret=$${ENV:oauth2_client_secret}
-    http-server.authentication.oauth2.principal-field=$${ENV:oauth2_principal_field}
+    http-server.authentication.oauth2.issuer=https://keycloak.${domain_name}/realms/data_platform
+    http-server.authentication.oauth2.client-id=trino
+    http-server.authentication.oauth2.client-secret=${trino_client_secret}
+    http-server.authentication.oauth2.principal-field=preferred_username
     web-ui.authentication.type=oauth2
   autoscaling:
     enabled: false
@@ -346,7 +346,7 @@ env: []
 #    value: "value"
 # ```
 
-envFrom:
+envFrom: []
 # envFrom -- additional environment variables added to every pod, specified as a list of either `ConfigMap`
 # or `Secret` references
 # @raw
@@ -355,8 +355,6 @@ envFrom:
 #   - secretRef:
 #     name: extra-secret
 # ```
-  - secretRef:
-      name: azure-entra-oauth2
 
 
 initContainers: {}
@@ -519,7 +517,13 @@ coordinator:
   #    protocol: TCP
   # ```
 
-  resources: {}
+  resources:
+    requests:
+      cpu: 200m
+      memory: 512Mi
+    limits:
+      cpu: 400m
+      memory: 1Gi
   # coordinator.resources -- It is recommended not to specify default resources
   # and to leave this as a conscious choice for the user. This also increases
   # chances charts run on environments with little resources, such as Minikube.
@@ -686,7 +690,13 @@ worker:
   #    protocol: TCP
   # ```
 
-  resources: {}
+  resources:
+    requests:
+      cpu: 300m
+      memory: 750Mi
+    limits:
+      cpu: 600m
+      memory: 1.5Gi
   # worker.resources -- It is recommended not to specify default resources and
   # to leave this as a conscious choice for the user. This also increases
   # chances charts run on environments with little resources, such as Minikube.

@@ -438,7 +438,7 @@ data:
 
 # Fernet key settings
 # Note: fernetKey can only be set during install, not upgrade
-fernetKey: ~
+fernetKey: ${airflow_fernet_key}
 fernetKeySecretName: ~
 
 # Flask secret key for Airflow Webserver: `[webserver] secret_key` in airflow.cfg
@@ -683,12 +683,12 @@ workers:
 
 
   resources:
-    # limits:
-    #   cpu: 1000m
-    #   memory: 3Gi
-    # requests:
-    #   cpu: 500m
-    #   memory: 2Gi
+    requests:
+      cpu: 100m
+      memory: 400Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
 
   # Grace period for tasks to finish after SIGTERM is sent from kubernetes
   terminationGracePeriodSeconds: 600
@@ -763,13 +763,13 @@ workers:
     args: ["bash", "/clean-logs"]
     # Number of days to retain logs
     retentionDays: 15
-    resources: {}
-    #  limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    #  requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+    resources:
+     limits:
+      cpu: 100m
+      memory: 128Mi
+     requests:
+      cpu: 100m
+      memory: 128Mi
     # Detailed default security context for logGroomerSidecar for container level
     securityContexts:
       container: {}
@@ -896,12 +896,12 @@ scheduler:
       # minAvailable: 1
 
   resources:
-    # limits:
-    #   cpu: 500m
-    #   memory: 1Gi
-    # requests:
-    #   cpu: 200m
-    #   memory: 1Gi
+    requests:
+      cpu: 150m
+      memory: 400Mi
+    limits:
+      cpu: 300m
+      memory: 750Gi
 
   # This setting tells kubernetes that its ok to evict
   # when it wants to scale a node down.
@@ -961,13 +961,13 @@ scheduler:
     args: ["bash", "/clean-logs"]
     # Number of days to retain logs
     retentionDays: 15
-    resources: {}
-    #  limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    #  requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+    resources:
+     limits:
+      cpu: 100m
+      memory: 128Mi
+     requests:
+      cpu: 100m
+      memory: 128Mi
     # Detailed default security context for logGroomerSidecar for container level
     securityContexts:
       container: {}
@@ -1081,13 +1081,13 @@ createUserJob:
 
   env: []
 
-  resources: {}
-  #  limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  #  requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+  resources:
+   limits:
+    cpu: 100m
+    memory: 128Mi
+   requests:
+    cpu: 100m
+    memory: 128Mi
 
 # Airflow database migration job settings
 migrateDatabaseJob:
@@ -1144,13 +1144,13 @@ migrateDatabaseJob:
     # Annotations to add to migrate database job kubernetes service account.
     annotations: {}
 
-  resources: {}
-  #  limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  #  requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+  resources:
+   limits:
+    cpu: 100m
+    memory: 128Mi
+   requests:
+    cpu: 100m
+    memory: 128Mi
 
   # Launch additional containers into database migration job
   extraContainers: []
@@ -1386,12 +1386,12 @@ webserver:
         - port: "{{ .Values.ports.airflowUI }}"
 
   resources:
-    # limits:
-    #   cpu: 2000m
-    #   memory: 1Gi
-    # requests:
-    #   cpu: 1500m
-    #   memory: 1Gi
+    requests:
+      cpu: 150m
+      memory: 400Mi
+    limits:
+      cpu: 300m
+      memory: 750Mi
 
   # Create initial user.
   defaultUser:
@@ -1576,13 +1576,13 @@ triggerer:
     # Annotations to add to triggerer volumes
     annotations: {}
 
-  resources: {}
-  #  limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  #  requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+  resources:
+   limits:
+    cpu: 100m
+    memory: 128Mi
+   requests:
+    cpu: 100m
+    memory: 128Mi
 
   # Grace period for triggerer to finish after SIGTERM is sent from kubernetes
   terminationGracePeriodSeconds: 60
@@ -1645,12 +1645,12 @@ triggerer:
     args: ["bash", "/clean-logs"]
     # Number of days to retain logs
     retentionDays: 15
-    resources: {}
-    #  limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    #  requests:
-    #   cpu: 100m
+    resources:
+     limits:
+      cpu: 100m
+      memory: 128Mi
+     requests:
+      cpu: 100m
     #   memory: 128Mi
     # Detailed default security context for logGroomerSidecar for container level
     securityContexts:
@@ -2034,13 +2034,13 @@ statsd:
 
   # Additional network policies as needed
   extraNetworkPolicies: []
-  resources: {}
-  #   limits:
-  #     cpu: 100m
-  #     memory: 128Mi
-  #   requests:
-  #     cpu: 100m
-  #     memory: 128Mi
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
 
   service:
     extraAnnotations: {}
@@ -2299,13 +2299,13 @@ redis:
   #   sizeLimit: 1Gi
   #   medium: Memory
 
-  resources: {}
-  #  limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  #  requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
 
   # If set use as redis secret. Make sure to also set data.brokerUrlSecretName value.
   passwordSecretName: ~
@@ -2713,13 +2713,13 @@ dags:
     #   sizeLimit: 1Gi
     #   medium: Memory
 
-    resources: {}
-    #  limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    #  requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+    resources:
+     limits:
+      cpu: 100m
+      memory: 128Mi
+     requests:
+      cpu: 100m
+      memory: 128Mi
 
 logs:
   # Configuration for empty dir volume (if logs.persistence.enabled == false)

@@ -7,3 +7,8 @@ variable "domain_name" {
   description = "The Route53 domain name."
   type        = string
 }
+
+variable "idp_config_secret" {
+  description = "The AWS Secrets Manager secret name storing the idp configuration to be used by Keycloak."
+  type        = string
+}

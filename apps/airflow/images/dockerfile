@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 apache/airflow:2.10.4
+FROM --platform=linux/amd64 apache/airflow:2.11.0
 
 # [Start-providers]
 RUN pip install apache-airflow-providers-trino
@@ -11,5 +11,5 @@ RUN python -m venv dbt_venv && source dbt_venv/bin/activate && \
 
 # Install all other libs
 COPY requirements.txt /
-RUN pip install --no-cache-dir "apache-airflow==${AIRFLOW_VERSION}" -r /requirements.txt
+RUN pip install --no-cache-dir -r /requirements.txt
 # [End-python-libs]

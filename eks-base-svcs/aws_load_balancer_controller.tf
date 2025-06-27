@@ -42,7 +42,7 @@ resource "helm_release" "aws_lbc" {
   repository = "https://aws.github.io/eks-charts"
   chart      = "aws-load-balancer-controller"
   namespace  = "kube-system"
-  version    = "1.8.1"
+  version    = var.lb_controller_version
 
   set {
     name  = "clusterName"
@@ -61,6 +61,6 @@ resource "helm_release" "aws_lbc" {
 
   depends_on = [
     aws_eks_pod_identity_association.aws_lbc
-    ,aws_iam_role_policy_attachment.aws_lbc
+    , aws_iam_role_policy_attachment.aws_lbc
   ]
 }

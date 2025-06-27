@@ -17,6 +17,13 @@ spec:
         kraftMetadata: shared
         deleteClaim: false
         class: ebs-csi-gp3
+  resources:
+    requests:
+      cpu: 200m
+      memory: 500Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
 ---
 
 apiVersion: kafka.strimzi.io/v1beta2
@@ -38,6 +45,13 @@ spec:
         kraftMetadata: shared
         deleteClaim: false
         class: ebs-csi-gp3
+  resources:
+    requests:
+      cpu: 300m
+      memory: 750Mi
+    limits:
+      cpu: 600m
+      memory: 1.5Gi
 ---
 
 apiVersion: kafka.strimzi.io/v1beta2
