@@ -4,7 +4,7 @@ from datetime import datetime
 
 profile_config = ProfileConfig(
     profile_name="datalake",
-    target_name="oauth",
+    target_name="prod",
     profiles_yml_filepath="/opt/airflow/dags/repo/apps/airflow/dags/dbt_datalake/datalake/profiles.yml"
 )
 
