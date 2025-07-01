@@ -8,6 +8,6 @@ datalake:
       password: dbt_user
       host: trino.bigdataoneks.click
       database: objectstore
-      schema: default
+      schema: ""
       http_scheme: https
       port: 443
