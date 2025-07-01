@@ -302,7 +302,7 @@ secret: []
 # might want to provide some of those variables with _CMD or _SECRET variable, and you should
 # in this case disable setting of those variables by setting the relevant configuration to false.
 enableBuiltInSecretEnvVars:
-  AIRFLOW__CORE__FERNET_KEY: true
+  AIRFLOW__CORE__FERNET_KEY: false
   # For Airflow <2.3, backward compatibility; moved to [database] in 2.3
   AIRFLOW__CORE__SQL_ALCHEMY_CONN: true
   AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: true
@@ -684,11 +684,11 @@ workers:
 
   resources:
     requests:
-      cpu: 100m
-      memory: 400Mi
-    limits:
       cpu: 500m
       memory: 1Gi
+    limits:
+      cpu: 1
+      memory: 2Gi
 
   # Grace period for tasks to finish after SIGTERM is sent from kubernetes
   terminationGracePeriodSeconds: 600
@@ -765,11 +765,11 @@ workers:
     retentionDays: 15
     resources:
      limits:
-      cpu: 100m
-      memory: 128Mi
+      cpu: 250m
+      memory: 400Mi
      requests:
-      cpu: 100m
-      memory: 128Mi
+      cpu: 150m
+      memory: 256Mi
     # Detailed default security context for logGroomerSidecar for container level
     securityContexts:
       container: {}
@@ -897,11 +897,11 @@ scheduler:
 
   resources:
     requests:
-      cpu: 150m
-      memory: 400Mi
+      cpu: 500m
+      memory: 750Mi
     limits:
-      cpu: 300m
-      memory: 750Gi
+      cpu: 750m
+      memory: 1Gi
 
   # This setting tells kubernetes that its ok to evict
   # when it wants to scale a node down.
@@ -963,11 +963,11 @@ scheduler:
     retentionDays: 15
     resources:
      limits:
-      cpu: 100m
-      memory: 128Mi
+      cpu: 250m
+      memory: 400Mi
      requests:
-      cpu: 100m
-      memory: 128Mi
+      cpu: 150m
+      memory: 256Mi
     # Detailed default security context for logGroomerSidecar for container level
     securityContexts:
       container: {}
@@ -1083,11 +1083,11 @@ createUserJob:
 
   resources:
    limits:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 250m
+    memory: 450Mi
    requests:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 150m
+    memory: 256Mi
 
 # Airflow database migration job settings
 migrateDatabaseJob:
@@ -1146,11 +1146,11 @@ migrateDatabaseJob:
 
   resources:
    limits:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 250m
+    memory: 512Mi
    requests:
     cpu: 100m
-    memory: 128Mi
+    memory: 256Mi
 
   # Launch additional containers into database migration job
   extraContainers: []
@@ -1318,8 +1318,8 @@ webserver:
   # Wait for at most 1 minute (6*10s) for the webserver container to startup.
   # livenessProbe kicks in after the first successful startupProbe
   startupProbe:
-    timeoutSeconds: 20
-    failureThreshold: 6
+    timeoutSeconds: 60
+    failureThreshold: 10
     periodSeconds: 30
     scheme: HTTP
 
@@ -1387,11 +1387,11 @@ webserver:
 
   resources:
     requests:
-      cpu: 150m
-      memory: 400Mi
+      cpu: 250m
+      memory: 768Mi
     limits:
-      cpu: 300m
-      memory: 750Mi
+      cpu: 500m
+      memory: 1Gi
 
   # Create initial user.
   defaultUser:
@@ -1578,11 +1578,11 @@ triggerer:
 
   resources:
    limits:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 250m
+    memory: 512Mi
    requests:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 150m
+    memory: 256Mi
 
   # Grace period for triggerer to finish after SIGTERM is sent from kubernetes
   terminationGracePeriodSeconds: 60
@@ -1647,10 +1647,11 @@ triggerer:
     retentionDays: 15
     resources:
      limits:
-      cpu: 100m
-      memory: 128Mi
+      cpu: 250m
+      memory: 400Mi
      requests:
-      cpu: 100m
+      cpu: 150m
+      memory: 256Mi
     #   memory: 128Mi
     # Detailed default security context for logGroomerSidecar for container level
     securityContexts:

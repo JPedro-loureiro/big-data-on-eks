@@ -2,9 +2,11 @@ To-do:
 
 * General:
     * Review the entire project and set variables as much as possible when needed;
+    * Set all passwords and keys as secrets in AWS Secrets Manager
 
 * Airflow:
     * Run DBT project using Airflow (Astronomer Cosmos);
+    * Dinamically set the dag repo
 * DBT:
     * Deploy DBT --ok
     * Integrate DBT with Trino and Iceberg tables; --ok

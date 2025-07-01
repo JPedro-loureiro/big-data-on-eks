@@ -1,7 +1,7 @@
 datalake:
-  target: oauth
+  target: prod
   outputs:
-    oauth:
+    prod:
       type: trino
       method: ldap
       user: dbt_user

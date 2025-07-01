@@ -31,4 +31,12 @@ clean-targets:         # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 models:
   datalake:
-    +materialized: table
+    bronze:
+      +schema: datalake_bronze
+      +materialized: table
+    silver:
+      +schema: datalake_silver
+      +materialized: table
+    gold:
+      +schema: datalake_gold
+      +materialized: table

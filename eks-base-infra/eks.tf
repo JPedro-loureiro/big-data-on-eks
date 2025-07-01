@@ -3,7 +3,7 @@ module "eks" {
   version = "~> 20.0"
 
   cluster_name    = "big-data-on-eks"
-  cluster_version = "1.31"
+  cluster_version = "1.32"
 
   cluster_endpoint_public_access  = true
   cluster_endpoint_private_access = false

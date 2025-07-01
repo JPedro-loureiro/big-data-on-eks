@@ -1,4 +1,17 @@
 # Trino cluster
+data "aws_secretsmanager_secret_version" "trino_users" {
+  secret_id = "trino_svc_users"
+}
+
+locals {
+  trino_svc_users = jsondecode(data.aws_secretsmanager_secret_version.trino_users.secret_string)
+  trino_svc_users_lines = [
+    for username, password in local.trino_svc_users :
+    "${username}:${bcrypt(password, 10)}"
+  ]
+  trino_svc_users_string = join("\n", local.trino_svc_users_lines)
+}
+
 resource "kubectl_manifest" "trino" {
   yaml_body = templatefile(
     "${path.module}/argocd_applications/trino.yaml", //templating the argo cd application file
@@ -10,6 +23,7 @@ resource "kubectl_manifest" "trino" {
             tls_certificate_arn = var.tls_certificate_arn
             domain_name         = var.domain_name
             trino_client_secret = random_password.trino_secret.result
+            # password_auth = local.trino_svc_users_string
           }
       ), "\n", "\n        ") // adding identation to yaml files
     }
@@ -60,9 +74,16 @@ resource "kubectl_manifest" "kafka_connect_connectors" {
 
 # Airflow
 
-resource "random_password" "airflow_fernet_key" {
-  length  = 32
-  special = false
+data "external" "airflow_fernet_key" {
+  program = [
+    "bash", "-c",
+    <<-EOT
+      set -e
+      python3 -m ensurepip --upgrade >/dev/null 2>&1 || true
+      python3 -m pip install --quiet --upgrade cryptography
+      python3 -c 'import json; from cryptography.fernet import Fernet; print(json.dumps({"fernet_key": Fernet.generate_key().decode()}))'
+    EOT
+  ]
 }
 
 resource "kubectl_manifest" "airflow" {
@@ -75,7 +96,7 @@ resource "kubectl_manifest" "airflow" {
           {
             tls_certificate_arn = var.tls_certificate_arn
             domain_name         = var.domain_name
-            airflow_fernet_key = random_password.airflow_fernet_key.result
+            airflow_fernet_key = data.external.airflow_fernet_key.result["fernet_key"]
           }
       ), "\n", "\n        ") // adding identation to yaml files
     }
