@@ -1,3 +1,20 @@
+# Kube Prometheus Stack
+resource "kubectl_manifest" "kube_prometheus_stack" {
+  yaml_body = templatefile(
+    "${path.module}/argocd_applications/kube_prometheus_stack.yaml", //templating the argo cd application file
+    {
+      values = replace(
+        templatefile(
+          "${path.module}/../apps/kube_prometheus_stack/kube_prometheus_stack_values.yaml", //templating the values file
+          {
+            tls_certificate_arn = var.tls_certificate_arn
+            domain_name         = var.domain_name
+          }
+      ), "\n", "\n        ") // adding identation to yaml files
+    }
+  )
+}
+
 # OPA Server
 resource "kubectl_manifest" "opa" {
   yaml_body = file("${path.module}/argocd_applications/opa.yaml")

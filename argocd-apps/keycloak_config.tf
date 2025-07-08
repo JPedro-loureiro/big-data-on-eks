@@ -1,12 +1,12 @@
 resource "null_resource" "wait_for_keycloak" {
-  depends_on = [kubectl_manifest.keycloak]
+  depends_on = [aws_route53_record.default_route]
 
   provisioner "local-exec" {
     command = <<EOT
     echo "Cleaning local DNS cache..."
     dscacheutil -flushcache
     killall -HUP mDNSResponder || true
-    for i in {1..30}; do
+    for i in {1..40}; do
       echo "Waiting for Keycloak to be ready..."
       if curl -ksf https://keycloak.${var.domain_name}/realms/master; then
         echo "Keycloak is up!"

@@ -129,3 +129,12 @@ resource "kubectl_manifest" "superset" {
     , null_resource.wait_for_keycloak
   ]
 }
+
+# TPCH Postgres
+resource "kubectl_manifest" "tpch_postgres" {
+  yaml_body = file("${path.module}/argocd_applications/tpch_postgres.yaml")
+
+  depends_on = [
+    kubectl_manifest.big_data_project
+  ]
+}

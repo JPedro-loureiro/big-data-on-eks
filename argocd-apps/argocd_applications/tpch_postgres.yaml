@@ -1,0 +1,33 @@
+apiVersion: "argoproj.io/v1alpha1"
+kind: Application
+metadata:
+  name: tpch-postgres
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: big-data
+  source:
+    repoURL: "https://github.com/JPedro-loureiro/big-data-on-eks.git"
+    targetRevision: HEAD
+    path: "apps/tpch_postgres"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: tpch-postgres
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - "Validate=false"
+      - "CreateNamespace=true"
+      - "PrunePropagationPolicy=foreground"
+      - "PruneLast=true"
+      # - "ServerSideApply=true"
+    retry:
+      limit: 3
+      backoff:
+        duration   : "5s"
+        factor     : 2
+        maxDuration: "1m"

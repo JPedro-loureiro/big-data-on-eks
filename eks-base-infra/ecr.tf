@@ -18,6 +18,20 @@ resource "null_resource" "build_airflow_image" {
   depends_on = [ aws_ecr_repository.airflow ]
 }
 
+resource "aws_ecr_repository" "tpch_postgres" {
+  name                 = "big-data-on-eks/tpch-postgres"
+  image_tag_mutability = "MUTABLE"
+  force_delete         = true
+}
+
+# It should be excluded after CI/CD pipeline implementation
+resource "null_resource" "build_tpch_postgres_image" {
+  provisioner "local-exec" {
+    command = "apps/tpch_postgres/docker_build.sh"
+  }
+  depends_on = [ aws_ecr_repository.tpch_postgres ]
+}
+
 # resource "aws_ecr_repository" "ranger_admin" {
 #   name                 = "big-data-on-eks/ranger_admin"
 #   image_tag_mutability = "MUTABLE"

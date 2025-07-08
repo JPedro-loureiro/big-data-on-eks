@@ -7,6 +7,7 @@ locals {
     trino            = "trino"
     superset         = "superset"
     keycloak         = "keycloak"
+    kube_prometheus_stack = "kube-prometheus-stack"
   }
 }
 
