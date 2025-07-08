@@ -22,7 +22,7 @@ spec:
     status.storage.replication.factor: -1
   resources:
     requests:
-      cpu: 250m
+      cpu: 500m
       memory: 500Mi
     limits:
       cpu: 1000m
