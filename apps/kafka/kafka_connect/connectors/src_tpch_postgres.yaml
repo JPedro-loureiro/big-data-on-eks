@@ -19,6 +19,7 @@ spec:
     slot.name: debezium_tpch_slot
     publication.name: debezium_tpch_pub
     database.server.name: tpch_postgres
+    topic.prefix: tpch_postgres
     # Schema converters
     key.converter: org.apache.kafka.connect.json.JsonConverter
     key.converter.schemas.enable: "false"
