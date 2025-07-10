@@ -1,7 +1,7 @@
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaConnector
 metadata:
-  name: sync-iceberg-users
+  name: sync-iceberg-tpch-postgres
   labels:
     # The strimzi.io/cluster label identifies the KafkaConnect instance
     # in which to create this connector. That KafkaConnect instance
