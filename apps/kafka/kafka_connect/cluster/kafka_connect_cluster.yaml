@@ -11,6 +11,13 @@ spec:
   version: 3.8.0
   replicas: 1
   bootstrapServers: main-cluster-kafka-bootstrap:9093
+  template:
+    pod:
+      volumes:
+        - name: strimzi-tmp
+          emptyDir:
+            medium: ""          # use "Memory" se quiser manter em RAM
+            sizeLimit: 5Gi 
   config:
     group.id: connect-cluster
     offset.storage.topic: connect-cluster-offsets
