@@ -1,27 +1,27 @@
-apiVersion: kafka.strimzi.io/v1beta2
-kind: KafkaConnector
-metadata:
-  name: sync-iceberg-credit-cards
-  labels:
-    # The strimzi.io/cluster label identifies the KafkaConnect instance
-    # in which to create this connector. That KafkaConnect instance
-    # must have the strimzi.io/use-connector-resources annotation
-    # set to true.
-    strimzi.io/cluster: main-kafka-connect-cluster
-spec:
-  class: io.tabular.iceberg.connect.IcebergSinkConnector
-  tasksMax: 2
-  config:
-    topics: credit_cards
-    iceberg.tables: datalake_bronze.credit_cards
-    iceberg.catalog.catalog-impl: org.apache.iceberg.aws.glue.GlueCatalog
-    iceberg.catalog.warehouse: "s3://datalake-bronze-590183863248"
-    iceberg.catalog.io-impl: org.apache.iceberg.aws.s3.S3FileIO
-    iceberg.tables.auto-create-enabled: true
-    iceberg.tables.evolve-schema-enabled: true
-    iceberg.control.commit.interval-ms: 300000
-    key.converter: org.apache.kafka.connect.storage.StringConverter
-    value.converter: org.apache.kafka.connect.json.JsonConverter
-    value.converter.schemas.enable: false
+# apiVersion: kafka.strimzi.io/v1beta2
+# kind: KafkaConnector
+# metadata:
+#   name: sync-iceberg-credit-cards
+#   labels:
+#     # The strimzi.io/cluster label identifies the KafkaConnect instance
+#     # in which to create this connector. That KafkaConnect instance
+#     # must have the strimzi.io/use-connector-resources annotation
+#     # set to true.
+#     strimzi.io/cluster: main-kafka-connect-cluster
+# spec:
+#   class: io.tabular.iceberg.connect.IcebergSinkConnector
+#   tasksMax: 2
+#   config:
+#     topics: credit_cards
+#     iceberg.tables: datalake_bronze.credit_cards
+#     iceberg.catalog.catalog-impl: org.apache.iceberg.aws.glue.GlueCatalog
+#     iceberg.catalog.warehouse: "s3://datalake-bronze-590183863248"
+#     iceberg.catalog.io-impl: org.apache.iceberg.aws.s3.S3FileIO
+#     iceberg.tables.auto-create-enabled: true
+#     iceberg.tables.evolve-schema-enabled: true
+#     iceberg.control.commit.interval-ms: 300000
+#     key.converter: org.apache.kafka.connect.storage.StringConverter
+#     value.converter: org.apache.kafka.connect.json.JsonConverter
+#     value.converter.schemas.enable: false
 
 
