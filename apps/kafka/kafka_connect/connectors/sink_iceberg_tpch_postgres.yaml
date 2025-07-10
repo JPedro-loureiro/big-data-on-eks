@@ -20,6 +20,9 @@ spec:
     iceberg.tables.auto-create-enabled: true
     iceberg.tables.evolve-schema-enabled: true
     iceberg.control.commit.interval-ms: 300000
+    iceberg.writer.batch-size-bytes: 10485760
+    iceberg.writer.max-file-size-bytes: 134217728
+    iceberg.writer.target-file-size-bytes: 134217728
     key.converter: org.apache.kafka.connect.storage.StringConverter
     value.converter: org.apache.kafka.connect.json.JsonConverter
     value.converter.schemas.enable: false
