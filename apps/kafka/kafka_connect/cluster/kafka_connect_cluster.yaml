@@ -16,8 +16,8 @@ spec:
       volumes:
         - name: strimzi-tmp
           emptyDir:
-            medium: ""          # use "Memory" se quiser manter em RAM
-            sizeLimit: 5Gi 
+            medium: ""
+            sizeLimit: 5120Mi
   config:
     group.id: connect-cluster
     offset.storage.topic: connect-cluster-offsets
