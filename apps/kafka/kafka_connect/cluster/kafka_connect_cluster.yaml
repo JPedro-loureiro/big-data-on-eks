@@ -30,12 +30,6 @@ spec:
   build:
     output:
       type: docker
-      # This image will last only for 24 hours and might be overwritten by other users
-      # Strimzi will use this tag to push the image. But it will use the digest to pull
-      # the container image to make sure it pulls exactly the image we just built. So
-      # it should not happen that you pull someone else's container image. However, we
-      # recommend changing this to your own container registry or using a different
-      # image name for any other than demo purposes.
       image: 590183863248.dkr.ecr.us-east-1.amazonaws.com/big-data-on-eks/kafka-connect:latest
       pushSecret: ecr-secret
     plugins:
@@ -47,3 +41,7 @@ spec:
         artifacts:
           - type: zip
             url: "https://d2p6pa21dvn84.cloudfront.net/api/plugins/tabular/iceberg-kafka-connect/versions/0.6.19/tabular-iceberg-kafka-connect-0.6.19.zip"
+      - name: debezium-postgres
+        artifacts:
+          - type: zip
+            url: "https://maven.repository.redhat.com/ga/io/debezium/debezium-connector-postgres/2.6.1.Final/debezium-connector-postgres-2.6.1.Final-plugin.zip"
