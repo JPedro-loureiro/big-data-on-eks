@@ -7,7 +7,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 7Gi
+      storage: 5Gi
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -229,6 +229,8 @@ spec:
             - "wal_level=logical"
             - "-c"
             - "max_wal_senders=10"
+            - "-c"
+            - "max_wal_size=1GB"
             - "-c"
             - "max_replication_slots=10"
             - "-c"

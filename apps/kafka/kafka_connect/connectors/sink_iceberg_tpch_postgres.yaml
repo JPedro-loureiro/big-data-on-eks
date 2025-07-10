@@ -12,8 +12,6 @@ spec:
   class: io.tabular.iceberg.connect.IcebergSinkConnector
   tasksMax: 2
   config:
-    # topics.regex: tpch_postgres\.public\..*
-    # iceberg.table.name.template: datalake_bronze.${topicParts[2]}
     iceberg.catalog.catalog-impl: org.apache.iceberg.aws.glue.GlueCatalog
     iceberg.catalog.warehouse: "s3://datalake-bronze-590183863248"
     iceberg.catalog.io-impl: org.apache.iceberg.aws.s3.S3FileIO

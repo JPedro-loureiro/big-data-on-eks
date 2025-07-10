@@ -14,4 +14,8 @@ To-do:
     * Deploy apache ranger
     * Configure the LDAP in Keycloak to use with usersync
 * Deploy a Postgres DB with TPCH data to simulate live DB:
-    * Create a ECR repo to build and push the custom Dockerfile
+* Deploy Karpenter:
+    * Set autoscaling for:
+        * Trino
+        * Airflow workers
+        * 

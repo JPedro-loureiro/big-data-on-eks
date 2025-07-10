@@ -20,15 +20,16 @@ spec:
     config.storage.replication.factor: -1
     offset.storage.replication.factor: -1
     status.storage.replication.factor: -1
+  template:
+    pod:
+      tmpDirSizeLimit: 2Gi
   resources:
     requests:
       cpu: 500m
       memory: 1Gi
-      ephemeral-storage: 5Gi
     limits:
       cpu: 1000m
       memory: 2Gi
-      ephemeral-storage: 5Gi
   build:
     output:
       type: docker
