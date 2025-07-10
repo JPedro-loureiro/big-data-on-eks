@@ -249,13 +249,15 @@ spec:
               value: postgres
             - name: POSTGRES_DB
               value: tpch
+            - name: PGDATA
+              value: /pgdata/data
           ports:
             - containerPort: 5432
           volumeMounts:
             - name: init-scripts
               mountPath: /docker-entrypoint-initdb.d
             - name: postgres-data
-              mountPath: /var/lib/postgresql/data
+              mountPath: /pgdata
       volumes:
         - name: init-scripts
           configMap:
