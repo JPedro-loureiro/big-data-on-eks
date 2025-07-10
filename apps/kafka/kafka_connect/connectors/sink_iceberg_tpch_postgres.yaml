@@ -12,8 +12,8 @@ spec:
   class: io.tabular.iceberg.connect.IcebergSinkConnector
   tasksMax: 2
   config:
-    topics.regex: tpch_postgres\.public\..*
-    iceberg.table.name.template: datalake_bronze.${topicParts[2]}
+    # topics.regex: tpch_postgres\.public\..*
+    # iceberg.table.name.template: datalake_bronze.${topicParts[2]}
     iceberg.catalog.catalog-impl: org.apache.iceberg.aws.glue.GlueCatalog
     iceberg.catalog.warehouse: "s3://datalake-bronze-590183863248"
     iceberg.catalog.io-impl: org.apache.iceberg.aws.s3.S3FileIO
@@ -23,5 +23,21 @@ spec:
     key.converter: org.apache.kafka.connect.storage.StringConverter
     value.converter: org.apache.kafka.connect.json.JsonConverter
     value.converter.schemas.enable: false
-
-
+    topics: >-
+      tpch_postgres.public.orders,
+      tpch_postgres.public.lineitem,
+      tpch_postgres.public.customer,
+      tpch_postgres.public.supplier,
+      tpch_postgres.public.nation,
+      tpch_postgres.public.region,
+      tpch_postgres.public.partsupp,
+      tpch_postgres.public.part
+    iceberg.tables: >-
+      datalake_bronze.orders,
+      datalake_bronze.lineitem,
+      datalake_bronze.customer,
+      datalake_bronze.supplier,
+      datalake_bronze.nation,
+      datalake_bronze.region,
+      datalake_bronze.partsupp,
+      datalake_bronze.part
