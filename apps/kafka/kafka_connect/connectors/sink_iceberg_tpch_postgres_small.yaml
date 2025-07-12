@@ -1,13 +1,13 @@
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaConnector
 metadata:
-  name: sync-iceberg-tpch-postgres
+  name: sync-iceberg-tpch-postgres-small
   labels:
     # The strimzi.io/cluster label identifies the KafkaConnect instance
     # in which to create this connector. That KafkaConnect instance
     # must have the strimzi.io/use-connector-resources annotation
     # set to true.
-    strimzi.io/cluster: main-kafka-connect-cluster-small
+    strimzi.io/cluster: main-kafka-connect-cluster
 spec:
   class: io.tabular.iceberg.connect.IcebergSinkConnector
   tasksMax: 2
