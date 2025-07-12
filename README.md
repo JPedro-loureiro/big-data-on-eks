@@ -3,6 +3,7 @@ To-do:
 * General:
     * Review the entire project and set variables as much as possible when needed;
     * Set all passwords and keys as secrets in AWS Secrets Manager
+    * Avaliar o consumo de resources de todos os pods usando o dashboard do grafana
 * Airflow:
     * Dinamically set the dag repo
     * Configure the connection for DBT in Airflow
@@ -17,5 +18,10 @@ To-do:
 * Deploy Karpenter:
     * Set autoscaling for:
         * Trino
-        * Airflow workers
-        * 
+        * Avaliar Airflow workers
+        * Avaliar Superset Workers
+        * Avaliar Kafka Connect
+* Kafka:
+    * Avaliar particionamento dos tópicos criados
+    * Os dados estão sendo escritos do lake de forma aninhada. Preciso usar um transformer para pegar apenas o dado em si
+    * Configurar o Schema Registry (???)

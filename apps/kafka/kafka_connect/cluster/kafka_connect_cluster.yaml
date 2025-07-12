@@ -25,10 +25,10 @@ spec:
       tmpDirSizeLimit: 2Gi
   resources:
     requests:
-      cpu: 500m
+      cpu: 1000m
       memory: 1Gi
     limits:
-      cpu: 1000m
+      cpu: 1500m
       memory: 2Gi
   build:
     output:

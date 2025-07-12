@@ -25,8 +25,6 @@ spec:
     value.converter: org.apache.kafka.connect.json.JsonConverter
     value.converter.schemas.enable: false
     topics: >-
-      tpch_postgres.public.orders,
-      tpch_postgres.public.lineitem,
       tpch_postgres.public.customer,
       tpch_postgres.public.supplier,
       tpch_postgres.public.nation,
@@ -34,8 +32,6 @@ spec:
       tpch_postgres.public.partsupp,
       tpch_postgres.public.part
     iceberg.tables: >-
-      datalake_bronze.orders,
-      datalake_bronze.lineitem,
       datalake_bronze.customer,
       datalake_bronze.supplier,
       datalake_bronze.nation,
