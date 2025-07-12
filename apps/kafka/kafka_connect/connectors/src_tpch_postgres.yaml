@@ -8,7 +8,7 @@ spec:
   class: io.debezium.connector.postgresql.PostgresConnector
   tasksMax: 1
   config:
-    #DB connection
+    # DB connection
     database.hostname: tpch-postgres.tpch-postgres.svc.cluster.local
     database.port: "5432"
     database.user: postgres
@@ -20,6 +20,19 @@ spec:
     publication.name: debezium_tpch_pub
     database.server.name: tpch_postgres
     topic.prefix: tpch_postgres
+    # TSM
+    transforms: unwrap,addTimestamp,renameTsMs
+    # TSM Unwrap
+    transforms.unwrap.type: io.debezium.transforms.ExtractNewRecordState
+    transforms.unwrap.drop.tombstones: true
+    transforms.unwrap.delete.handling.mode: drop
+    transforms.unwrap.add.fields: ts_ms
+    # TSM add ingestion ts
+    transforms.addTimestamp.type: org.apache.kafka.connect.transforms.InsertField$Value
+    transforms.addTimestamp.timestamp.field: event_ingestion_ts
+    # TSM add ts_ms (event ts in postgres)
+    transforms.renameTsMs.type: org.apache.kafka.connect.transforms.ReplaceField$Value
+    transforms.renameTsMs.renames: ts_ms:event_timestamp
     # Schema converters
     key.converter: org.apache.kafka.connect.json.JsonConverter
     key.converter.schemas.enable: "false"
