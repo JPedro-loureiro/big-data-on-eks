@@ -7,7 +7,7 @@ metadata:
     # in which to create this connector. That KafkaConnect instance
     # must have the strimzi.io/use-connector-resources annotation
     # set to true.
-    strimzi.io/cluster: main-kafka-connect-cluster
+    strimzi.io/cluster: main-kafka-connect-cluster-small
 spec:
   class: io.tabular.iceberg.connect.IcebergSinkConnector
   tasksMax: 2
