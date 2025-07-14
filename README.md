@@ -4,6 +4,7 @@ To-do:
     * Review the entire project and set variables as much as possible when needed;
     * Set all passwords and keys as secrets in AWS Secrets Manager
     * Avaliar o consumo de resources de todos os pods usando o dashboard do grafana
+    * Ebs que não destroy com o terraform: PVC do postgres do Airflow e do Triggerer do Airflow
 * Airflow:
     * Dinamically set the dag repo
     * Configure the connection for DBT in Airflow
@@ -22,6 +23,5 @@ To-do:
         * Avaliar Superset Workers
         * Avaliar Kafka Connect
 * Kafka:
-    * Avaliar particionamento dos tópicos criados
-    * Os dados estão sendo escritos do lake de forma aninhada. Preciso usar um transformer para pegar apenas o dado em si
+    * Verificar se os trasformers e o partitioning estão funcionando como esperado
     * Configurar o Schema Registry (???)
