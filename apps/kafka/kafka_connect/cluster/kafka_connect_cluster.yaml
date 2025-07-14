@@ -64,3 +64,5 @@ spec:
             url: "https://packages.confluent.io/maven/io/confluent/common-utils/7.5.1/common-utils-7.5.1.jar"
           - type: jar
             url: "https://repo1.maven.org/maven2/org/apache/avro/avro/1.11.1/avro-1.11.1.jar"
+          - type: jar
+            url: "https://packages.confluent.io/maven/io/confluent/kafka-connect-avro-data/7.5.1/kafka-connect-avro-data-7.5.1.jar"
