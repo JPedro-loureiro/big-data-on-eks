@@ -26,13 +26,16 @@ spec:
     transforms.unwrap.type: io.debezium.transforms.ExtractNewRecordState
     transforms.unwrap.drop.tombstones: true
     transforms.unwrap.delete.handling.mode: drop
-    transforms.unwrap.add.fields: ts_ms
+    transforms.unwrap.add.fields: __ts_ms
+    transforms.unwrap.debug: true
     # TSM add ingestion ts
     transforms.addTimestamp.type: org.apache.kafka.connect.transforms.InsertField$Value
     transforms.addTimestamp.timestamp.field: event_ingestion_ts
+    transforms.addTimestamp.debug: true
     # TSM add ts_ms (event ts in postgres)
     transforms.renameTsMs.type: org.apache.kafka.connect.transforms.ReplaceField$Value
-    transforms.renameTsMs.renames: ts_ms:event_timestamp
+    transforms.renameTsMs.renames: __ts_ms:event_timestamp
+    transforms.renameTsMs.debug: true
     # Schema converters
     key.converter: org.apache.kafka.connect.json.JsonConverter
     key.converter.schemas.enable: "false"
