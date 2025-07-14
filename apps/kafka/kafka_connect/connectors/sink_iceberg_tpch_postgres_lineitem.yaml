@@ -15,7 +15,7 @@ spec:
     iceberg.catalog.catalog-impl: org.apache.iceberg.aws.glue.GlueCatalog
     iceberg.catalog.warehouse: "s3://datalake-bronze-590183863248"
     iceberg.catalog.io-impl: org.apache.iceberg.aws.s3.S3FileIO
-    iceberg.tables.default-partition-by: "event_timestamp_hour"
+    iceberg.tables.default-partition-by: "updated_at_hour"
     iceberg.tables.auto-create-enabled: true
     iceberg.tables.evolve-schema-enabled: true
     iceberg.control.commit.interval-ms: 300000
