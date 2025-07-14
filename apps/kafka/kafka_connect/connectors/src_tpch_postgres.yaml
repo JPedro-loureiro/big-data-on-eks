@@ -21,17 +21,15 @@ spec:
     database.server.name: tpch_postgres
     topic.prefix: tpch_postgres
     # TSM
-    transforms: unwrap,renameEventTs
-    # 2. Unwrap Debezium envelope
+    transforms: renameEventTs,unwrap
+
     transforms.unwrap.type: io.debezium.transforms.ExtractNewRecordState
     transforms.unwrap.drop.tombstones: true
     transforms.unwrap.delete.handling.mode: drop
-    transforms.unwrap.add.fields: ts_ms
-    transforms.unwrap.debug: true
-    # 3. Rename ts_ms -> event_timestamp
+    transforms.unwrap.add.fields: __ts_ms
+
     transforms.renameEventTs.type: org.apache.kafka.connect.transforms.ReplaceField$Value
-    transforms.renameEventTs.renames: ts_ms:event_timestamp
-    transforms.renameEventTs.debug: true
+    transforms.renameEventTs.renames: __ts_ms:event_timestamp
     # Schema converters
     key.converter: io.confluent.connect.avro.AvroConverter
     key.converter.schema.registry.url: "http://schema-registry.kafka.svc.cluster.local:8081"
