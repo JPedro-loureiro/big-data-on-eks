@@ -72,6 +72,18 @@ resource "kubectl_manifest" "kafka_connect_connectors" {
   depends_on = [kubectl_manifest.kafka_connect_cluster]
 }
 
+# Kafka Schema Registry
+resource "kubectl_manifest" "kafka_schema_registry" {
+  yaml_body = templatefile(
+    "${path.module}/argocd_applications/schema_registry.yaml", //templating the argo cd application file
+    {
+      values = file("${path.module}/../apps/kafka/schema_registry/schema_registry_values.yaml")
+    }
+  )
+
+  depends_on = [kubectl_manifest.kafka_connect_cluster]
+}
+
 # Airflow
 
 data "external" "airflow_fernet_key" {

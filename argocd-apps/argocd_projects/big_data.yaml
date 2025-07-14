@@ -11,6 +11,7 @@ spec:
     - https://strimzi.io/charts/
     - https://airflow.apache.org
     - https://apache.github.io/superset
+    - registry-1.docker.io/bitnamicharts
   destinations:
     - namespace: "*"
       server: "https://kubernetes.default.svc"

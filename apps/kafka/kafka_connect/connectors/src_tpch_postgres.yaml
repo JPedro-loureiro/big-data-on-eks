@@ -33,9 +33,11 @@ spec:
     transforms.renameEventTs.renames: ts_ms:event_timestamp
     transforms.renameEventTs.debug: true
     # Schema converters
-    key.converter: org.apache.kafka.connect.json.JsonConverter
+    key.converter: io.confluent.connect.avro.AvroConverter
+    key.converter.schema.registry.url: "http://schema-registry.kafka.svc.cluster.local:8081"
     key.converter.schemas.enable: "true"
-    value.converter: org.apache.kafka.connect.json.JsonConverter
+    value.converter: io.confluent.connect.avro.AvroConverter
+    value.converter.schema.registry.url: "http://schema-registry.kafka.svc.cluster.local:8081"
     value.converter.schemas.enable: "true"
     # Table list
     table.include.list: >

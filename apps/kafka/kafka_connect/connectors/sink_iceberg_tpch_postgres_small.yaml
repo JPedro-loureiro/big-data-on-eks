@@ -22,9 +22,14 @@ spec:
     iceberg.writer.batch-size-bytes: 10485760
     iceberg.writer.max-file-size-bytes: 134217728
     iceberg.writer.target-file-size-bytes: 134217728
-    key.converter: org.apache.kafka.connect.storage.StringConverter
-    value.converter: org.apache.kafka.connect.json.JsonConverter
-    value.converter.schemas.enable: false
+    # Avro Converters + Schema Registry
+    key.converter: io.confluent.connect.avro.AvroConverter
+    key.converter.schema.registry.url: "http://schema-registry.kafka.svc.cluster.local:8081"
+    key.converter.schemas.enable: "true"
+
+    value.converter: io.confluent.connect.avro.AvroConverter
+    value.converter.schema.registry.url: "http://schema-registry.kafka.svc.cluster.local:8081"
+    value.converter.schemas.enable: "true"
     topics: >-
       tpch_postgres.public.customer,
       tpch_postgres.public.supplier,

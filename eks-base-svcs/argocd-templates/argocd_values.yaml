@@ -199,6 +199,8 @@ configs:
     ## Ref: https://argo-cd.readthedocs.io/en/stable/user-guide/status-badge/
     statusbadge.enabled: false
 
+    # helm.oci.enabled: true
+
     # Dex configuration
     # dex.config: |
     #   connectors:
