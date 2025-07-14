@@ -55,7 +55,7 @@ spec:
           - type: jar
             url: "https://packages.confluent.io/maven/io/confluent/kafka-connect-avro-data/8.0.0/kafka-connect-avro-data-8.0.0.jar"
           - type: jar
-            url: "https://packages.confluent.io/maven/io/confluent/kafka-connect-schema/8.0.0/kafka-connect-schema-8.0.0.jar"  # ← ESTE É O FALTANTE
+            url: "https://packages.confluent.io/maven/io/confluent/kafka-connect-schema/8.0.0/kafka-connect-schema-8.0.0.jar"
           - type: jar
             url: "https://packages.confluent.io/maven/io/confluent/kafka-avro-serializer/8.0.0/kafka-avro-serializer-8.0.0.jar"
           - type: jar
