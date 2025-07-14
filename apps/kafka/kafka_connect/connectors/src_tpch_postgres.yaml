@@ -21,7 +21,7 @@ spec:
     database.server.name: tpch_postgres
     topic.prefix: tpch_postgres
     # TSM
-    transforms: renameEventTs,unwrap
+    transforms: unwrap,renameEventTs
 
     transforms.unwrap.type: io.debezium.transforms.ExtractNewRecordState
     transforms.unwrap.drop.tombstones: true
