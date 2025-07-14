@@ -26,7 +26,7 @@ spec:
     transforms.unwrap.type: io.debezium.transforms.ExtractNewRecordState
     transforms.unwrap.drop.tombstones: true
     transforms.unwrap.delete.handling.mode: drop
-    transforms.unwrap.add.fields: ts_ms,event_ingestion_ts
+    transforms.unwrap.add.fields: ts_ms
     transforms.unwrap.debug: true
     # 3. Rename ts_ms -> event_timestamp
     transforms.renameEventTs.type: org.apache.kafka.connect.transforms.ReplaceField$Value
