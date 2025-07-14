@@ -21,21 +21,21 @@ spec:
     database.server.name: tpch_postgres
     topic.prefix: tpch_postgres
     # TSM
-    transforms: unwrap,renameEventTs,addIngestionTs
-    # TSM Unwrap
+    transforms: addIngestionTs,unwrap,renameEventTs
+    # 1. Add ingestion timestamp (tem que ser antes do unwrap)
+    transforms.addIngestionTs.type: org.apache.kafka.connect.transforms.InsertField$Value
+    transforms.addIngestionTs.timestamp.field: event_ingestion_ts
+    transforms.addIngestionTs.debug: true
+    # 2. Unwrap Debezium envelope
     transforms.unwrap.type: io.debezium.transforms.ExtractNewRecordState
     transforms.unwrap.drop.tombstones: true
     transforms.unwrap.delete.handling.mode: drop
     transforms.unwrap.add.fields: ts_ms
     transforms.unwrap.debug: true
-    # TSM add ts_ms (event ts in postgres)
+    # 3. Rename ts_ms -> event_timestamp
     transforms.renameEventTs.type: org.apache.kafka.connect.transforms.ReplaceField$Value
     transforms.renameEventTs.renames: ts_ms:event_timestamp
     transforms.renameEventTs.debug: true
-    # TSM add ingestion ts
-    transforms.addIngestionTs.type: org.apache.kafka.connect.transforms.InsertField$Value
-    transforms.addIngestionTs.timestamp.field: event_ingestion_ts
-    transforms.addIngestionTs.debug: true
     # Schema converters
     key.converter: org.apache.kafka.connect.json.JsonConverter
     key.converter.schemas.enable: "false"
