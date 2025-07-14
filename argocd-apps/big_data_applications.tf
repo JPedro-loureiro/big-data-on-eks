@@ -58,20 +58,6 @@ resource "kubectl_manifest" "kafka_cluster" {
   depends_on = [kubectl_manifest.strimzi_operator]
 }
 
-# Kafka Connect Cluster
-resource "kubectl_manifest" "kafka_connect_cluster" {
-  yaml_body = file("${path.module}/argocd_applications/kafka_connect_cluster.yaml")
-
-  depends_on = [kubectl_manifest.kafka_cluster]
-}
-
-# Kafka Connect Connectors
-resource "kubectl_manifest" "kafka_connect_connectors" {
-  yaml_body = file("${path.module}/argocd_applications/kafka_connect_connectors.yaml")
-
-  depends_on = [kubectl_manifest.kafka_connect_cluster]
-}
-
 # Kafka Schema Registry
 resource "kubectl_manifest" "kafka_schema_registry" {
   yaml_body = templatefile(
@@ -80,6 +66,20 @@ resource "kubectl_manifest" "kafka_schema_registry" {
       values = file("${path.module}/../apps/kafka/schema_registry/schema_registry_values.yaml")
     }
   )
+
+  depends_on = [kubectl_manifest.kafka_cluster]
+}
+
+# Kafka Connect Cluster
+resource "kubectl_manifest" "kafka_connect_cluster" {
+  yaml_body = file("${path.module}/argocd_applications/kafka_connect_cluster.yaml")
+
+  depends_on = [kubectl_manifest.kafka_schema_registry]
+}
+
+# Kafka Connect Connectors
+resource "kubectl_manifest" "kafka_connect_connectors" {
+  yaml_body = file("${path.module}/argocd_applications/kafka_connect_connectors.yaml")
 
   depends_on = [kubectl_manifest.kafka_connect_cluster]
 }
