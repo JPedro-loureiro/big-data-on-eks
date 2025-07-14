@@ -31,11 +31,11 @@ spec:
     # TSM add ts_ms (event ts in postgres)
     transforms.renameEventTs.type: org.apache.kafka.connect.transforms.ReplaceField$Value
     transforms.renameEventTs.renames: ts_ms:event_timestamp
-    transforms.renameTsMs.debug: true
+    transforms.renameEventTs.debug: true
     # TSM add ingestion ts
     transforms.addIngestionTs.type: org.apache.kafka.connect.transforms.InsertField$Value
     transforms.addIngestionTs.timestamp.field: event_ingestion_ts
-    transforms.addTimestamp.debug: true
+    transforms.addIngestionTs.debug: true
     # Schema converters
     key.converter: org.apache.kafka.connect.json.JsonConverter
     key.converter.schemas.enable: "false"
