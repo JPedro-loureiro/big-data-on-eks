@@ -51,7 +51,7 @@ spec:
       - name: avro-converter
         artifacts:
           - type: zip
-            url: "https://storage.googleapis.com/confluent-hub-stage/connect/confluentinc/kafka-connect-avro-converter/8.0.0/kafka-connect-avro-converter-8.0.0.zip"
+            url: "https://hub-downloads.confluent.io/api/plugins/confluentinc/kafka-connect-avro-converter/versions/8.0.0/confluentinc-kafka-connect-avro-converter-8.0.0.zip"
       # - name: avro-converter
       #   artifacts:
       #     - type: jar
