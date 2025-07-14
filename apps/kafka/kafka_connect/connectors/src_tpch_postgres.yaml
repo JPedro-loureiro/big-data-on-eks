@@ -32,7 +32,7 @@ spec:
     transforms.unwrap.add.fields.prefix: ""
     # 3. Rename source.ts_ms -> updated_at
     transforms.renameEventTs.type: org.apache.kafka.connect.transforms.ReplaceField$Value
-    transforms.renameEventTs.renames: source.ts_ms:updated_at
+    transforms.renameEventTs.renames: source_ts_ms:updated_at
     transforms.renameEventTs.debug: true
     # 3. Rename op -> operation_type
     transforms.renameOp.type: org.apache.kafka.connect.transforms.ReplaceField$Value
